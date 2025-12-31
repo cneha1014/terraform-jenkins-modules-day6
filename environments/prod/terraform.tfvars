@@ -1,13 +1,13 @@
 region             = "us-east-1"
-ami_id             = "ami-0abcdef1234567890"
-instance_type      = "t3.micro"
-subnet_id          = "subnet-xxxxxxxx"
-security_group_ids = ["sg-xxxxxxxx"]
+ami_id             = "ami-0ecb62995f68bb549"
+instance_type      = "Ubuntu Server 24.04 LTS (HVM)"
+subnet_id          = "subnet-00bbed3454b03a91a"
+security_group_ids = ["sg-0f810122d781e3748"]
 volume_size        = 10
 
-alb_subnets = ["subnet-xxxxxx", "subnet-yyyyyy"]
-alb_sg      = ["sg-yyyyyyyy"]
-vpc_id      = "vpc-xxxxxxxx"
+alb_subnets = ["subnet-0add50cddf3f143c6", "subnet-00d2546b7e4a3221a"]
+alb_sg      = ["sg-0f810122d781e3748"]
+vpc_id      = "vpc-0324027ceaa363ebd"
 
 environment = "prod"
 owner       = "Neha"
