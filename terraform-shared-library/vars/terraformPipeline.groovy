@@ -13,19 +13,30 @@ def call() {
 
         environment {
             TF_IN_AUTOMATION = "true"
+            AWS_DEFAULT_REGION = "us-east-1"
         }
 
         stages {
 
             stage('Terraform Init') {
                 steps {
-                    sh 'terraform init'
+                    withCredentials([
+                        [$class: 'AmazonWebServicesCredentialsBinding',
+                         credentialsId: 'aws-creds']
+                    ]) {
+                        sh 'terraform init'
+                    }
                 }
             }
 
             stage('Terraform Plan') {
                 steps {
-                    sh "terraform plan -var-file=environments/${params.ENV}/terraform.tfvars"
+                    withCredentials([
+                        [$class: 'AmazonWebServicesCredentialsBinding',
+                         credentialsId: 'aws-creds']
+                    ]) {
+                        sh "terraform plan -var-file=environments/${params.ENV}/terraform.tfvars"
+                    }
                 }
             }
 
@@ -40,7 +51,12 @@ def call() {
 
             stage('Terraform Apply') {
                 steps {
-                    sh "terraform apply -auto-approve -var-file=environments/${params.ENV}/terraform.tfvars"
+                    withCredentials([
+                        [$class: 'AmazonWebServicesCredentialsBinding',
+                         credentialsId: 'aws-creds']
+                    ]) {
+                        sh "terraform apply -auto-approve -var-file=environments/${params.ENV}/terraform.tfvars"
+                    }
                 }
             }
         }
