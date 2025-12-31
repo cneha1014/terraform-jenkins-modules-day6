@@ -1,6 +1,6 @@
 region             = "us-east-1"
 ami_id             = "ami-0ecb62995f68bb549"
-instance_type      = "Ubuntu Server 24.04 LTS (HVM)"
+instance_type      = "t3.micro"
 subnet_id          = "subnet-00bbed3454b03a91a"
 security_group_ids = ["sg-0f810122d781e3748"]
 volume_size        = 10
