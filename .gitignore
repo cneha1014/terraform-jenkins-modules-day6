@@ -1,0 +1,10 @@
+# Terraform
+.terraform/
+.terraform.lock.hcl
+
+# AWS CLI installer files
+aws/
+awscliv2.zip
+
+# OS / Editor
+.DS_Store
