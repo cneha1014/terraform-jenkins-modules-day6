@@ -4,26 +4,21 @@ pipeline {
     agent any
 
     parameters {
-        choice(name: 'ENV', choices: ['dev', 'uat', 'prod'], description: 'Environment')
+        choice(
+            name: 'ENV',
+            choices: ['dev', 'uat', 'prod'],
+            description: 'Select environment'
+        )
     }
 
     stages {
-
-        stage('Terraform Init') {
+        stage('Terraform Deploy') {
             steps {
-                terraformInit(params.ENV)
-            }
-        }
-
-        stage('Terraform Plan') {
-            steps {
-                terraformPlan(params.ENV)
-            }
-        }
-
-        stage('Terraform Apply') {
-            steps {
-                terraformApply(params.ENV)
+                script {
+                    lock(resource: "terraform-${params.ENV}") {
+                        terraformPipeline(params.ENV)
+                    }
+                }
             }
         }
     }
