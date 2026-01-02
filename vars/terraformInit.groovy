@@ -1,7 +1,12 @@
 def call(String env) {
-    sh """
-      terraform init \
-      -backend-config=environments/${env}/backend.tfvars \
-      -reconfigure
-    """
+    withCredentials([
+        [$class: 'AmazonWebServicesCredentialsBinding',
+         credentialsId: 'aws-creds']
+    ]) {
+        sh """
+          terraform init \
+          -backend-config=environments/${env}/backend.tfvars \
+          -reconfigure
+        """
+    }
 }

@@ -1,7 +1,12 @@
 def call(String env) {
-    sh """
-      terraform apply \
-      -var-file=environments/${env}/terraform.tfvars \
-      -auto-approve
-    """
+    withCredentials([
+        [$class: 'AmazonWebServicesCredentialsBinding',
+         credentialsId: 'aws-creds']
+    ]) {
+        sh """
+          terraform apply \
+          -var-file=environments/${env}/terraform.tfvars \
+          -auto-approve
+        """
+    }
 }

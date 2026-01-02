@@ -1,6 +1,11 @@
 def call(String env) {
-    sh """
-      terraform plan \
-      -var-file=environments/${env}/terraform.tfvars
-    """
+    withCredentials([
+        [$class: 'AmazonWebServicesCredentialsBinding',
+         credentialsId: 'aws-creds']
+    ]) {
+        sh """
+          terraform plan \
+          -var-file=environments/${env}/terraform.tfvars
+        """
+    }
 }
