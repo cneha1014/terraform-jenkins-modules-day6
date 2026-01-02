@@ -20,22 +20,30 @@ def call() {
 
             stage('Terraform Init') {
                 steps {
-                    withCredentials([
-                        [$class: 'AmazonWebServicesCredentialsBinding',
-                         credentialsId: 'aws-creds']
-                    ]) {
-                        sh 'terraform init'
+                    script {
+                        lock(resource: "terraform-${params.ENV}") {
+                            withCredentials([
+                                [$class: 'AmazonWebServicesCredentialsBinding',
+                                 credentialsId: 'aws-creds']
+                            ]) {
+                                sh 'terraform init -reconfigure'
+                            }
+                        }
                     }
                 }
             }
 
             stage('Terraform Plan') {
                 steps {
-                    withCredentials([
-                        [$class: 'AmazonWebServicesCredentialsBinding',
-                         credentialsId: 'aws-creds']
-                    ]) {
-                        sh "terraform plan -var-file=environments/${params.ENV}/terraform.tfvars"
+                    script {
+                        lock(resource: "terraform-${params.ENV}") {
+                            withCredentials([
+                                [$class: 'AmazonWebServicesCredentialsBinding',
+                                 credentialsId: 'aws-creds']
+                            ]) {
+                                sh "terraform plan -var-file=environments/${params.ENV}/terraform.tfvars"
+                            }
+                        }
                     }
                 }
             }
@@ -51,11 +59,15 @@ def call() {
 
             stage('Terraform Apply') {
                 steps {
-                    withCredentials([
-                        [$class: 'AmazonWebServicesCredentialsBinding',
-                         credentialsId: 'aws-creds']
-                    ]) {
-                        sh "terraform apply -auto-approve -var-file=environments/${params.ENV}/terraform.tfvars"
+                    script {
+                        lock(resource: "terraform-${params.ENV}") {
+                            withCredentials([
+                                [$class: 'AmazonWebServicesCredentialsBinding',
+                                 credentialsId: 'aws-creds']
+                            ]) {
+                                sh "terraform apply -auto-approve -var-file=environments/${params.ENV}/terraform.tfvars"
+                            }
+                        }
                     }
                 }
             }
