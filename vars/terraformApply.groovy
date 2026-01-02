@@ -1,5 +1,7 @@
 def call(String env) {
     sh """
-      terraform apply -var-file=env/${env}.tfvars -auto-approve
+      terraform apply \
+      -var-file=environments/${env}/terraform.tfvars \
+      -auto-approve
     """
 }
