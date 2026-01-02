@@ -1,3 +1,7 @@
 def call(String env) {
-    sh "terraform apply -var-file=env/${env}.tfvars -auto-approve"
+    sh """
+      terraform init \
+      -backend-config=env/${env}.tfvars \
+      -reconfigure
+    """
 }
