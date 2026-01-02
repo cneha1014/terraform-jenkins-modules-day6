@@ -1,5 +1,5 @@
 resource "aws_lb" "this" {
-  name               = var.name
+  name               = "day6-${var.environment}-alb"
   load_balancer_type = "application"
   subnets            = var.subnets
   security_groups    = var.security_groups
@@ -11,7 +11,7 @@ resource "aws_lb" "this" {
 }
 
 resource "aws_lb_target_group" "this" {
-  name     = "${var.name}-tg"
+  name     = "day6-${var.environment}-alb-tg"
   port     = 80
   protocol = "HTTP"
   vpc_id   = var.vpc_id

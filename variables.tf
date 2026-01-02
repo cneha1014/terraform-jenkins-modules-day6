@@ -10,8 +10,8 @@ variable "instance_type" {
   description = "EC2 instance type"
 }
 
-variable "subnet_id" {
-  description = "Subnet ID for EC2"
+variable "volume_size" {
+  description = "Root EBS volume size"
 }
 
 variable "security_group_ids" {
@@ -19,12 +19,13 @@ variable "security_group_ids" {
   type        = list(string)
 }
 
-variable "volume_size" {
-  description = "Root EBS volume size"
+variable "ec2_subnet_id" {
+  description = "Subnet ID for EC2 instance"
+  type        = string
 }
 
-variable "alb_subnets" {
-  description = "Subnets for ALB"
+variable "alb_subnet_ids" {
+  description = "Subnet IDs for ALB"
   type        = list(string)
 }
 
