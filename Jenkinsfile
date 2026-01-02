@@ -12,12 +12,27 @@ pipeline {
     }
 
     stages {
-        stage('Terraform Deploy') {
+
+        stage('Terraform Init') {
             steps {
-                script {
-                    lock(resource: "terraform-${params.ENV}") {
-                        terraformPipeline(params.ENV)
-                    }
+                lock(resource: "terraform-${params.ENV}") {
+                    terraformInit(params.ENV)
+                }
+            }
+        }
+
+        stage('Terraform Plan') {
+            steps {
+                lock(resource: "terraform-${params.ENV}") {
+                    terraformPlan(params.ENV)
+                }
+            }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                lock(resource: "terraform-${params.ENV}") {
+                    terraformApply(params.ENV)
                 }
             }
         }
