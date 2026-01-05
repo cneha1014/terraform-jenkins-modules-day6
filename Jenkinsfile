@@ -1,7 +1,13 @@
-@Library('terraform-shared-library') _
+@Library('terraform-shared-lib') _
+
 
 pipeline {
     agent any
+
+     options {
+        disableConcurrentBuilds()
+        timestamps()                
+    }
 
     parameters {
         choice(
